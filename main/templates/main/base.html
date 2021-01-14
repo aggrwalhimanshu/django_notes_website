@@ -1,0 +1,128 @@
+{% load static %}
+<!doctype html>
+<html>
+<head>
+	<style type="text/css">
+		body{
+			display: grid;
+			grid-template-columns: 250px 1fr 300px;
+			grid-template-rows: 150px 1fr; 
+			font-family: system-ui, sans-serif; 
+			height: 100vh;
+			background-color: gainsboro!important;
+		}
+		header {
+			place-self:center;
+			grid-column: 2 / 3;
+		}
+		header h1{
+			height:100%;
+			width:100%;
+		}
+		.title {
+			padding: 1rem;
+			grid-column: 2 / 3;
+		}
+		.title h1 {
+			text-align: center;
+		}
+		.logo {
+			place-self:center;
+			grid-column: 1 / 2;
+			align-content: center;
+		}
+		.logo img {
+			max-width:100%;
+			max-height:100%;
+		}
+		.usercontent {
+			grid-column: 3 / 4;
+			text-decoration: none;
+			text-align: center;
+			font-size: 25px;
+			padding: 1rem;
+		}
+		.usercontent ul {
+			list-style-type: none;
+			margin: 0;
+			padding: 0;
+		}
+		.usercontent a {
+			text-decoration: none;
+			display: block;
+		}
+		.usercontent a:hover {
+			color: #f1f1f1;
+		}
+		sidebar {
+			grid-column: 1 / 2;
+			text-decoration: none;
+			overflow-x: hidden; 
+			padding: 1rem;
+		}
+		sidebar a {
+			text-decoration: none;
+			text-align: center;
+			font-size: 25px;
+			display: block;
+		}
+		sidebar a:hover {
+			color: #f1f1f1;
+		}
+		sidebar ul {
+			list-style-type: none;
+			margin: 0;
+			padding: 0;
+		}
+		main {
+			background: #50cfff4a;
+			grid-column: 2 / 4;
+		}
+	</style>
+	<title>{% block title %}My Django Site{% endblock %}</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<body>
+	<div class="logo">
+			<img src="{% static "main/logo_transparent.png" %}" alt="logo">
+	</div>
+	<div class="title">
+		<h1>My Django Site</h1>
+	</div>
+	<div class="usercontent">
+		<ul>
+			{% if user.is_authenticated  %}
+				<li>Welcome {{user.username}}</li>
+				<li><a href="/logout">Logout</a></li>
+			{% else %}
+				<li><a href="/login">Login</a></li>
+				<li><a href="/register">Register</a></li>
+			{% endif %}
+		</ul>
+	</div>
+	<sidebar>
+		<ul>
+			<li><a href="/">Home</a></li>
+			<li><a href="/create">Create</a></li>
+			<li><a href="/view">View</a></li>
+		</ul>
+	</sidebar>
+	<main>
+			<div class="col-8">
+				<hr class="mt-0 mb-4">
+				{% if user.is_authenticated or request.path in "/login/"  or request.path in "/register/"  %}
+					{% block content %}
+					{% endblock %}
+				{% else %}
+					<p>Login <a href="/login">here</a></p>
+				{% endif %}
+			</div>
+		</div>
+	</main>
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+</body>
+</html>
